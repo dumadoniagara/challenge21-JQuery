@@ -14,8 +14,7 @@ module.exports = (db) => {
       }
       else {
         res.status(200).json({
-          data: data.rows,
-          moment
+          data: data.rows
         });
       }
     });
@@ -32,7 +31,8 @@ module.exports = (db) => {
       }
       else {
         res.status(200).json({
-          data: data.rows
+          data: data.rows[0],
+          moment
         });
       }
     });

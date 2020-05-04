@@ -145,14 +145,29 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="addModalLabel" text-align:center >Edit Data</h5>
+          <h5 class="modal-title" id="editModalLabel" text-align:center >Edit Data</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div> <!-- Modal header-->
 
+        
         <div class="modal-body">
-          <form id="addForm">
+          <form id="editForm">
+            <div class="row">
+              <div class="col-2">
+                <div class="form-check">
+                  <label class="form-check-label" for="id">
+                    ID
+                  </label>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group">
+                  <input type="number" class="form-control" id="editId" placeholder="ID" name="id" disabled>
+                </div>
+              </div>
+            </div>
             <div class="row">
               <div class="col-2">
                 <div class="form-check">
@@ -219,11 +234,11 @@
               </div>
               <div class="col">
                 <div class="form-group">
+
                   <select class="custom-select custom-select" id="editBoolean" class="form-control" name="boolean">
-                      <option selected disabled> choose the boolean</option>
-                      <option  class="form-control" value="true">True</option>
-                      <option  class="form-control" value="false">False</option>
+                      <!-- Diisi dengan menggunakan data-edit -->
                   </select>
+
                 </div>
               </div>
             </div>
@@ -232,7 +247,7 @@
 
         <div class="modal-footer btn-edit">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-          <button type="submit" id="submit-data" class="btn btn-primary btn-change" dataid="" data-dismiss="modal">Save change</button>
+          <button type="submit" id="edit-data" class="btn btn-primary btn-change" data-dismiss="modal">Save change</button>
         </div>
       </div> <!-- modal content-->
     </div>
@@ -240,7 +255,7 @@
   <!-- Edit Modal End -->
 
 
-
+  <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js" type="text/javascript"></script>
   <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
     crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"

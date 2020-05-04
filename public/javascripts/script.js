@@ -4,15 +4,17 @@ $(document).ready(() => {
 
     $('table tbody').on('click', '.btn-edit', function (e) {
         let id = $(this).attr('dataid');
-    
-        $('.btn-edit').on('click', '.btn-change', function (e) {
-            let string = $('#editString').val();
-            let integer = $('#editInteger').val();
-            let float = $('#editFloat').val();
-            let date = $('#editDate').val();
-            let bool = $('#editBoolean').val();
-            editData(id, string, integer, float, date, bool);
-        })
+        dataModal(id)
+    })
+
+    $('.btn-edit').on('click', '.btn-change', function (e) {
+        let id = $('#editId').val();
+        let string = $('#editString').val();
+        let integer = $('#editInteger').val();
+        let float = $('#editFloat').val();
+        let date = $('#editDate').val();
+        let bool = $('#editBoolean').val();
+        editData(id, string, integer, float, date, bool);
     })
 
     $('.btn-add').on('click', '.btn-save', function (e) {
@@ -28,12 +30,15 @@ $(document).ready(() => {
     })
 
     $('table tbody').on('click', '.btn-delete', function () {
-        let id = $(this).attr('dataid');
-        console.log(id);
-        deleteData(id);
+        if (confirm('Yakin data akan dihapus?')) {
+            let id = $(this).attr('dataid');
+            // console.log(id);
+            deleteData(id);
+        }
     })
 })
 
+// ==================== Load Data ======================================
 const loadData = () => {
     $.ajax({
         methdod: "GET",
@@ -46,11 +51,11 @@ const loadData = () => {
         data.forEach(item => {
             html += `<tr>
                     <td>${item.id}</td>
-                    <td valString="${item.stringdata}">${item.stringdata}</td>
-                    <td valInteger="${item.integerdata}">${item.integerdata}</td>
-                    <td valFloat="${item.floatdata}">${item.floatdata}</td>
-                    <td valDate="${item.datedata}">${item.datedata}</td>
-                    <td valBool="${item.booleandata}">${item.booleandata}</td>
+                    <td>${item.stringdata}</td>
+                    <td>${item.integerdata}</td>
+                    <td>${item.floatdata}</td>
+                    <td>${moment(item.datedata).format('DD-MMMM-YYYY')}</td>
+                    <td>${item.booleandata}</td>
                     <td>
                       <button type="button" class="btn btn-success btn-edit" dataid="${item.id}" data-toggle="modal" data-target="#editModal"> Edit </button>
                       <button type="button" class="btn btn-danger btn-delete" dataid="${item.id}"> Delete </button>
@@ -64,6 +69,7 @@ const loadData = () => {
         });
 }
 
+// ==================== Add ======================================
 const addData = (stringdata, integerdata, floatdata, datedata, booleandata) => {
     $.ajax({
         method: "POST",
@@ -76,9 +82,10 @@ const addData = (stringdata, integerdata, floatdata, datedata, booleandata) => {
         .fail((err) => {
             console.log("gagal-add")
         });
-        $('#addForm').trigger('reset');
+    $('#addForm').trigger('reset');
 }
 
+// ==================== Delete ======================================
 const deleteData = (id) => {
     $.ajax({
         method: "DELETE",
@@ -93,6 +100,7 @@ const deleteData = (id) => {
         })
 }
 
+// ===================== Edit (PUT)===================================
 const editData = (id, stringdata, integerdata, floatdata, datedata, booleandata) => {
     $.ajax({
         method: "PUT",
@@ -103,40 +111,38 @@ const editData = (id, stringdata, integerdata, floatdata, datedata, booleandata)
         loadData();
     })
         .fail((err) => {
-            console.log("gagal-add")
+            console.log("gagal-edit")
         });
 }
 
-
-
-
-
-
-// ============================ YASA ===================
-const showData = id => {
+// =================== Edit (GET), show data in edit-modal ==============
+const dataModal = id => {
     $.ajax({
         method: 'GET',
         url: `http://localhost:3000/api/` + id,
         dataType: 'json'
     })
         .done(result => {
-            let items = result.data;
+            console.log(result);
             let html = '';
-            items.forEach(item => {
-                $('#submit-data').attr('dataid', item.id);
-                $('input#modalId').val(item.id);
-                $('input#modalString').val(item.string);
-                $('input#modalInteger').val(item.integer);
-                $('input#modalFloat').val(item.float);
-                $('input#modalDate').val(item.date);
-                if (item.boolean == 'true') {
-                    html += `<option value="true" selected>true</option>
-          <option value="false">false</option>`;
-                } else {
-                    html += `<option value="true">true</option>
-          <option value="false" selected>false</option>`;
-                };
-            });
-            $('#modalBoolean').html(html);
-        });
+            let item = result.data;
+            $('#editId').val(item.id);
+            $('#editString').val(item.stringdata);
+            $('#editInteger').val(item.integerdata);
+            $('#editFloat').val(item.floatdata);
+            $('#editDate').val(moment(item.datedata).format('YYYY-MM-DD'));
+
+            if (item.booleandata == true) {
+                html += `<option value="true" selected>true</option>
+                            <option value="false">false</option>`;
+            } else {
+                html += `<option value="false" selected>false</option>
+                <option value="true">true</option>`;
+            };
+            $('#editBoolean').html(html);
+        })
+        .fail(() => {
+            console.log('edit-data gagal');
+        })
+
 };
