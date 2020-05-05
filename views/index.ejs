@@ -28,8 +28,21 @@
             <!-- table content use Jquery -->
           </tbody>
         </table>
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
+        <!--  pagination end -->
         <a class="btn btn-primary" href="#" role="button" data-toggle="modal" data-target="#addModal">Add New</a>
       </div>
+
+
     </div>
   </div>
 
@@ -42,7 +55,7 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="addModalLabel" text-align:center >Add New Data</h5>
+          <h5 class="modal-title" id="addModalLabel" text-align:center>Add New Data</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -88,7 +101,7 @@
               </div>
               <div class="col">
                 <div class="form-group">
-                  <input type="number" step="0.01" class="form-control" id="addFloat" placeholder="Float" name="float" >
+                  <input type="number" step="0.01" class="form-control" id="addFloat" placeholder="Float" name="float">
                 </div>
               </div>
             </div>
@@ -117,9 +130,9 @@
               <div class="col">
                 <div class="form-group">
                   <select class="custom-select custom-select" id="addBoolean" class="form-control" name="boolean">
-                      <option selected disabled> choose the boolean</option>
-                      <option  class="form-control" value="true">True</option>
-                      <option  class="form-control" value="false">False</option>
+                    <option selected disabled> choose the boolean</option>
+                    <option class="form-control" value="true">True</option>
+                    <option class="form-control" value="false">False</option>
                   </select>
                 </div>
               </div>
@@ -129,7 +142,8 @@
 
         <div class="modal-footer btn-add">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-          <button type="submit" id="submit-data" class="btn btn-primary btn-save" dataid="" data-dismiss="modal">Submit</button>
+          <button type="submit" id="submit-data" class="btn btn-primary btn-save" dataid=""
+            data-dismiss="modal">Submit</button>
         </div>
       </div> <!-- modal content-->
     </div>
@@ -145,13 +159,13 @@
       <div class="modal-content">
 
         <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel" text-align:center >Edit Data</h5>
+          <h5 class="modal-title" id="editModalLabel" text-align:center>Edit Data</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div> <!-- Modal header-->
 
-        
+
         <div class="modal-body">
           <form id="editForm">
             <div class="row">
@@ -206,7 +220,7 @@
               </div>
               <div class="col">
                 <div class="form-group">
-                  <input type="number" step="0.01" class="form-control" id="editFloat" placeholder="Float" name="float" >
+                  <input type="number" step="0.01" class="form-control" id="editFloat" placeholder="Float" name="float">
                 </div>
               </div>
             </div>
@@ -236,7 +250,7 @@
                 <div class="form-group">
 
                   <select class="custom-select custom-select" id="editBoolean" class="form-control" name="boolean">
-                      <!-- Diisi dengan menggunakan data-edit -->
+                    <!-- Diisi dengan menggunakan data-edit -->
                   </select>
 
                 </div>
@@ -247,7 +261,8 @@
 
         <div class="modal-footer btn-edit">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Back</button>
-          <button type="submit" id="edit-data" class="btn btn-primary btn-change" data-dismiss="modal">Save change</button>
+          <button type="submit" id="edit-data" class="btn btn-primary btn-change" data-dismiss="modal">Save
+            change</button>
         </div>
       </div> <!-- modal content-->
     </div>
@@ -267,4 +282,5 @@
 
   <script type="text/javascript" src="./javascripts/script.js"></script>
 </body>
+
 </html>

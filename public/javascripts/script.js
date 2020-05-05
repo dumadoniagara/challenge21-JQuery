@@ -62,7 +62,14 @@ const loadData = () => {
                     </td>                  
                 </tr>`
         });
+        let pagination = `<li class="page-item"><a class="page-link" href="#">Previous</a></li>\n`;
+        for (i = 1; i <= result.pages; i++) {
+        pagination +=  `<li class="page-item"><a class="page-link" href="#">${i}</a></li>\n`
+        }
+
+        pagination +=  `<li class="page-item"><a class="page-link" href="#">Next</a></li>\n`
         $("table tbody").html(html);
+        $('nav ul').html(pagination);
     })
         .fail(function (err) {
             console.log("gagal-read")
