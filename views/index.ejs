@@ -12,30 +12,158 @@
     <div class="card">
       <h5 class="card-header">WELCOME</h5>
       <div class="card-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th scope="col">ID</th>
-              <th scope="col">String</th>
-              <th scope="col">Integer</th>
-              <th scope="col">Float</th>
-              <th scope="col">Date</th>
-              <th scope="col">Boolean</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- table content use Jquery -->
-          </tbody>
-        </table>
-        <!-- Pagination -->
-        <nav aria-label="Page navigation example">
-          <ul class="pagination">
-           <!-- diisi dengan menggunakan JQuery -->
-          </ul>
-        </nav>
-        <!--  pagination end -->
-        <a class="btn btn-primary" href="#" role="button" data-toggle="modal" data-target="#addModal">Add New</a>
+
+        <!-- Form Search -->
+        <div class="container">
+          <form action="" method="GET" id="search">
+            <input type="hidden" id="page" name="page" value="1">
+            <div class="container mt-4">
+              <h5 style="text-align: left">SEARCH : </h5>
+              <br>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-check">
+                    <input class="form-check-input" name="checkId" type="checkbox" id="cId">
+                    <label class="form-check-label" name="checkId" for="checkId">
+                      ID
+                    </label>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="form-group">
+                    <input type="number" name="id" class="form-control" id="id" placeholder="ID">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-check">
+                    <input class="form-check-input" name="checkString" type="checkbox" id="cString">
+                    <label class="form-check-label" name="checkString" for="checkString">
+                      String
+                    </label>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="form-group">
+                    <input type="text" name="string" class="form-control" id="string" placeholder="String">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="checkInteger" id="cInteger">
+                    <label class="form-check-label" for="integer">
+                      Integer
+                    </label>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="form-group">
+                    <input type="number" class="form-control" id="integer" name="integer" placeholder="Integer">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="checkFloat" id="cFloat">
+                    <label class="form-check-label" for="checkFloat">
+                      Float
+                    </label>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="form-group">
+                    <input type="number" class="form-control" step="0.01" id="float" name="float" placeholder="Float">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-2">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="checkDate" id="cDate">
+                    <label class="form-check-label" for="date">
+                      Date
+                    </label>
+                  </div>
+                </div>
+                <div class="col-3">
+                  <div class="form-group">
+                    <input type="date" class="form-control" name="startDate" id="startDate" placeholder="masukan date">
+                  </div>
+                </div>
+                <div class="w-100"></div>
+                <p class="col offset-2">to</p>
+                <div class="w-100"></div>
+                <div class="col-3 offset-2">
+                  <div class="form-group">
+                    <input type="date" class="form-control" name="endDate" id="endDate" placeholder="masukan date">
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="checkBoolean" id="cBoolean">
+                    <label class="form-check-label" for="boolean">
+                      Boolean
+                    </label>
+                  </div>
+                </div>
+                <div class="col-10">
+                  <div class="form-group">
+                    <select name="boolean" id="boolean" class="form-control">
+                      <option selected disabled> choose the boolean</option>
+                      <option name="bool" class="form-control" value="true">True</option>
+                      <option name="bool" class="form-control" value="false">False</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <button type="submit" class="btn btn-dark" id="search-btn">Search</button>
+              <a href="/">
+                <button type="button" class="btn btn-dark" id="">All</button>
+              </a>
+            </div>
+          </form>
+        </div>
+        <br>
+
+        <div class="container">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">String</th>
+                <th scope="col">Integer</th>
+                <th scope="col">Float</th>
+                <th scope="col">Date</th>
+                <th scope="col">Boolean</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- table content use Jquery -->
+            </tbody>
+          </table>
+          <!-- Pagination -->
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <!-- diisi dengan menggunakan JQuery -->
+            </ul>
+          </nav>
+          <!--  pagination end -->
+          <a class="btn btn-primary" href="#" role="button" data-toggle="modal" data-target="#addModal">Add New</a>
+        </div>
       </div>
 
 

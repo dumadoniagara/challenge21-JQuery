@@ -6,12 +6,45 @@ var moment = require('moment');
 module.exports = (db) => {
 
   // ============ Load Data ================
-  router.get('/', function (req, res, next) {
-
+  router.get('/', function (req, res) {
+    let isSearch = false;
     const page = parseInt(req.query.page) || 1;
+    const { id, string, float, startDate, endDate, boolean, cId, cString, cInteger, cFloat, cDate, cBoolean } = req.query;
+    let query = [];
+    if (cId && id) {
+      query.push(`id = '${id}'`);
+      isSearch = true;
+    }
+    if (cString && string) {
+      query.push(`stringdata LIKE  '%${string}%'`);
+      isSearch = true;
+    }
+    if (cInteger && integer) {
+      query.push(`integerdata = ${integer}`);
+      isSearch = true;
+    }
+    if (cFloat && float) {
+      query.push(`floatdata = ${float}`);
+      isSearch = true;
+    }
+    if (cBoolean && boolean) {
+      query.push(`booleandata = '${boolean}'`);
+      isSearch = true;
+    }
+
+    if (cDate && startDate && endDate) {
+      query.push(` datedata BETWEEN '${startDate}' AND '${endDate}'`);
+      isSearch = true;
+    }
+
+    let search = "";
+    if (isSearch) {
+      search += `WHERE ${query.join(' AND ')}`;
+    }
+    // console.log(search);
+
     const limit = 3;
     const offset = (page - 1) * limit;
-    console.log("this is :"+ page);
 
     let sqlPages = `SELECT COUNT(id) as total FROM bread`;
     db.query(sqlPages, (err, data) => {
@@ -19,9 +52,9 @@ module.exports = (db) => {
         return res.send(err);
       }
       const totalData = parseInt(data.rows[0].total);
-      const pages = Math.ceil(totalData/limit);
+      const pages = Math.ceil(totalData / limit);
       // console.log(pages);
-      let sql = `SELECT * FROM bread ORDER BY id LIMIT $1 OFFSET $2`;
+      let sql = `SELECT * FROM bread ${search} ORDER BY id LIMIT $1 OFFSET $2`;
       db.query(sql, [limit, offset], (err, data) => {
         if (err) {
           return res.send(err);
@@ -31,7 +64,8 @@ module.exports = (db) => {
         else {
           res.status(200).json({
             data: data.rows,
-            pages
+            pages,
+            page
           });
         }
       });
@@ -57,6 +91,7 @@ module.exports = (db) => {
     });
   });
 
+  // ============== Delete Data ===============
   router.delete('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     const sql = `DELETE FROM bread WHERE id = $1`;
@@ -71,6 +106,7 @@ module.exports = (db) => {
     })
   })
 
+  // ============== find Data ===============
   router.put('/:id', (req, res) => {
     let sql = `UPDATE bread SET stringdata = $2, integerdata = $3, floatdata = $4, booleandata = $5, datedata = $6  WHERE id = $1`
     let edit = [parseInt(req.params.id), req.body.stringdata, parseInt(req.body.integerdata), parseFloat(req.body.floatdata), JSON.parse(req.body.booleandata), req.body.datedata];
@@ -86,6 +122,7 @@ module.exports = (db) => {
     })
   });
 
+  // ============== Add Data ===============
   router.post('/', function (req, res) {
     let sql = 'INSERT INTO bread (stringdata, integerdata, floatdata, booleandata, datedata) VALUES  ($1,$2,$3,$4,$5)';
     let add = [req.body.stringdata, parseInt(req.body.integerdata), parseFloat(req.body.floatdata), JSON.parse(req.body.booleandata), req.body.datedata];

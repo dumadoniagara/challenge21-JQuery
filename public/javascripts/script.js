@@ -5,7 +5,7 @@ $(document).ready(() => {
     $('table tbody').on('click', '.btn-edit', function (e) {
         let id = $(this).attr('dataid');
         dataModal(id)
-    })
+    });
 
     $('.btn-edit').on('click', '.btn-change', function (e) {
         let id = $('#editId').val();
@@ -24,8 +24,6 @@ $(document).ready(() => {
         let float = $('#addFloat').val();
         let date = $('#addDate').val();
         let bool = $('#addBoolean').val();
-
-        console.log([string, integer, float, date, bool]);
         addData(string, integer, float, date, bool);
     })
 
@@ -38,22 +36,41 @@ $(document).ready(() => {
 
     $('nav').on('click', 'li', function (e) {
         e.preventDefault();
-        console.log($(this).attr('pageid'));
-        let page = $(this).attr('pageid');
-        loadData(page);
+        // console.log($(this).attr('pageid'));
+        $('#page').val($(this).attr('pageid'));
+        loadData();
+    })
+
+    $('#search').submit(function (e) {
+        e.preventDefault();
+        loadData();
     })
 })
 
 // ==================== Load Data ======================================
-const loadData = (page) => {
+const loadData = () => {
+
+    let page = $('#page').val();
+    let id = $('#id').val();
+    let string = $('#string').val();
+    let float = $('#float').val();
+    let startDate = $('#startDate').val();
+    let endDate = $('#endDate').val();
+    let boolean = $('#boolean').val();
+    let cId = $("input[type=checkbox][name=checkId]:checked").val();
+    let cString = $("input[type=checkbox][name=checkString]:checked").val();
+    let cFloat = $("input[type=checkbox][name=checkFloat]:checked").val();
+    let cDate = $("input[type=checkbox][name=checkDate]:checked").val();
+    let cBoolean = $("input[type=checkbox][name=checkBoolean]:checked").val();
+
     $.ajax({
         methdod: "GET",
         url: "http://localhost:3000/api/",
-        data: { page }, //diisi ketika kamu butuh filter
+        data: { page, id, string, float, startDate, endDate, boolean, cId, cString, cFloat, cDate, cBoolean },
         dataType: "json"
     }).done(result => {
-        console.log(result.pages);
         let data = result.data;
+        let page = result.page;
         let html = "";
         data.forEach(item => {
             html += `<tr>
@@ -73,9 +90,9 @@ const loadData = (page) => {
         let pagination = "";
 
         if (page == 1) {
-             pagination += `<li class="page-item disabled" pageid="${parseInt(page) - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
+            pagination += `<li class="page-item prevoius disabled" pageid="${page - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
         } else {
-            pagination += `<li class="page-item" pageid="${parseInt(page) - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
+            pagination += `<li class="page-item previous" pageid=${page - 1}><a class="page-link" href="#">Previous</a></li>\n`;
         }
         for (i = 1; i <= result.pages; i++) {
             if (i == page) {
@@ -85,10 +102,10 @@ const loadData = (page) => {
             }
         }
 
-        if (page == parseInt(result.pages)) {
-            pagination += `<li class="page-item disabled" pageid="${parseInt(page) + 1}"><a class="page-link" href="#">Next</a></li>\n`;
+        if (result.page == parseInt(result.pages)) {
+            pagination += `<li class="page-item next pageid=${page + 1} disabled"><a class="page-link" href="#">Next</a></li>\n`;
         } else {
-            pagination += `<li class="page-item" pageid="${parseInt(page) + 1}"><a class="page-link" href="#">Next</a></li>\n`;
+            pagination += `<li class="page-item next" pageid=${page + 1}><a class="page-link" href="#">Next</a></li>\n`;
         }
 
         $("table tbody").html(html);
