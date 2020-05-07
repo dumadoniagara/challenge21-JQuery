@@ -32,20 +32,27 @@ $(document).ready(() => {
     $('table tbody').on('click', '.btn-delete', function () {
         if (confirm('Yakin data akan dihapus?')) {
             let id = $(this).attr('dataid');
-            // console.log(id);
             deleteData(id);
         }
+    });
+
+    $('nav').on('click', 'li', function (e) {
+        e.preventDefault();
+        console.log($(this).attr('pageid'));
+        let page = $(this).attr('pageid');
+        loadData(page);
     })
 })
 
 // ==================== Load Data ======================================
-const loadData = () => {
+const loadData = (page) => {
     $.ajax({
         methdod: "GET",
         url: "http://localhost:3000/api/",
-        data: {}, //diisi ketika kamu butuh filter
+        data: { page }, //diisi ketika kamu butuh filter
         dataType: "json"
     }).done(result => {
+        console.log(result.pages);
         let data = result.data;
         let html = "";
         data.forEach(item => {
@@ -62,12 +69,28 @@ const loadData = () => {
                     </td>                  
                 </tr>`
         });
-        let pagination = `<li class="page-item"><a class="page-link" href="#">Previous</a></li>\n`;
+
+        let pagination = "";
+
+        if (page == 1) {
+             pagination += `<li class="page-item disabled" pageid="${parseInt(page) - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
+        } else {
+            pagination += `<li class="page-item" pageid="${parseInt(page) - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
+        }
         for (i = 1; i <= result.pages; i++) {
-        pagination +=  `<li class="page-item"><a class="page-link" href="#">${i}</a></li>\n`
+            if (i == page) {
+                pagination += `<li class="page-item active" pageid="${i}"><a class="page-link" href="#">${i}</a></li>\n`;
+            } else {
+                pagination += `<li class="page-item" pageid="${i}"><a class="page-link" href="#">${i}</a></li>\n`;
+            }
         }
 
-        pagination +=  `<li class="page-item"><a class="page-link" href="#">Next</a></li>\n`
+        if (page == parseInt(result.pages)) {
+            pagination += `<li class="page-item disabled" pageid="${parseInt(page) + 1}"><a class="page-link" href="#">Next</a></li>\n`;
+        } else {
+            pagination += `<li class="page-item" pageid="${parseInt(page) + 1}"><a class="page-link" href="#">Next</a></li>\n`;
+        }
+
         $("table tbody").html(html);
         $('nav ul').html(pagination);
     })

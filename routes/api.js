@@ -5,11 +5,13 @@ var moment = require('moment');
 /* GET users listing. */
 module.exports = (db) => {
 
+  // ============ Load Data ================
   router.get('/', function (req, res, next) {
 
     const page = parseInt(req.query.page) || 1;
     const limit = 3;
     const offset = (page - 1) * limit;
+    console.log("this is :"+ page);
 
     let sqlPages = `SELECT COUNT(id) as total FROM bread`;
     db.query(sqlPages, (err, data) => {
@@ -36,6 +38,7 @@ module.exports = (db) => {
     })
   });
 
+  // ============== Show Data ===============
   router.get('/:id', function (req, res, next) {
     let id = req.params.id;
     let sql = `SELECT * FROM bread WHERE id = ${id}`;
