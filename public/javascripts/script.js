@@ -4,7 +4,7 @@ $(document).ready(() => {
 
     $('table tbody').on('click', '.btn-edit', function (e) {
         let id = $(this).attr('dataid');
-        dataModal(id)
+        dataModal(id);
     });
 
     $('.btn-edit').on('click', '.btn-change', function (e) {
@@ -45,7 +45,7 @@ $(document).ready(() => {
         loadData();
     });
 
-    $('#reset').on('click',function(e){
+    $('#reset').on('click', function (e) {
         loadData();
     })
 })
@@ -54,12 +54,14 @@ $(document).ready(() => {
 const loadData = () => {
     let page = $('#page').val();
     let id = $('#id').val();
+    let integer = $('#integer').val();
     let string = $('#string').val();
     let float = $('#float').val();
     let startDate = $('#startDate').val();
     let endDate = $('#endDate').val();
     let boolean = $('#boolean').val();
     let cId = $("input[type=checkbox][name=checkId]:checked").val();
+    let cInteger = $("input[type=checkbox][name=checkInteger]:checked").val();
     let cString = $("input[type=checkbox][name=checkString]:checked").val();
     let cFloat = $("input[type=checkbox][name=checkFloat]:checked").val();
     let cDate = $("input[type=checkbox][name=checkDate]:checked").val();
@@ -68,13 +70,14 @@ const loadData = () => {
     $.ajax({
         methdod: "GET",
         url: "http://localhost:3000/api/",
-        data: { page, id, string, float, startDate, endDate, boolean, cId, cString, cFloat, cDate, cBoolean },
+        data: { page, id, string, integer, float, startDate, endDate, boolean, cId, cString, cFloat, cInteger, cDate, cBoolean },
         dataType: "json"
     }).done(result => {
         const data = result.data;
         let page = result.page;
-        let pages = result.pages; 
+        let pages = result.pages;
         let html = "";
+        let pagination = "";
         console.log(`page:${page}, pages:${pages}`)
         data.forEach(item => {
             html += `<tr>
@@ -90,9 +93,6 @@ const loadData = () => {
                     </td>                  
                 </tr>`
         });
-
-        let pagination = "";
-
         if (page == 1) {
             pagination += `<li class="page-item prevoius disabled" pageid="${page - 1}"><a class="page-link" href="#">Previous</a></li>\n`;
         } else {
@@ -116,7 +116,8 @@ const loadData = () => {
         $('nav ul').html(pagination);
     })
         .fail(function (err) {
-            console.log("gagal-read")
+            $("#notFoundModal").modal('show');
+            console.log('Data yang diminta tidak ditemukan')
         });
 }
 
@@ -174,7 +175,7 @@ const dataModal = id => {
         dataType: 'json'
     })
         .done(result => {
-            console.log(result);
+            // console.log(result);
             let html = '';
             let item = result.data;
             $('#editId').val(item.id);

@@ -9,7 +9,7 @@ module.exports = (db) => {
   router.get('/', function (req, res) {
     let isSearch = false;
     const page = parseInt(req.query.page) || 1;
-    const { id, string, float, startDate, endDate, boolean, cId, cString, cInteger, cFloat, cDate, cBoolean } = req.query;
+    const { id, string, integer, float, startDate, endDate, boolean, cId, cString, cInteger, cFloat, cDate, cBoolean } = req.query;
     let query = [];
     if (cId && id) {
       query.push(`id = '${id}'`);
