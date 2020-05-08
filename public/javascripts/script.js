@@ -35,7 +35,6 @@ $(document).ready(() => {
 
     $('nav').on('click', 'li', function (e) {
         e.preventDefault();
-        // console.log($(this).attr('pageid'));
         $('#page').val($(this).attr('pageid'));
         loadData();
     })
@@ -108,7 +107,7 @@ const loadData = () => {
         }
 
         if (page == parseInt(pages)) {
-            pagination += `<li class="page-item next pageid=${page + 1} disabled"><a class="page-link" href="#">Next</a></li>\n`;
+            pagination += `<li class="page-item next disabled" pageid="${page + 1}"><a class="page-link" href="#">Next</a></li>\n`;
         } else {
             pagination += `<li class="page-item next" pageid=${page + 1}><a class="page-link" href="#">Next</a></li>\n`;
         }
