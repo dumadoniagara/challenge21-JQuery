@@ -41,19 +41,23 @@ module.exports = (db) => {
     if (isSearch) {
       search += `WHERE ${query.join(' AND ')}`;
     }
-    // console.log(search);
+    console.log(search);
 
     const limit = 3;
     const offset = (page - 1) * limit;
 
-    let sqlPages = `SELECT COUNT(id) as total FROM bread`;
+    let sqlPages = `SELECT COUNT (id) as total FROM bread ${search}`;
     db.query(sqlPages, (err, data) => {
-      if (err) {
-        return res.send(err);
+      if (err) return res.status(500).json({
+        error: true,
+        message: err
+      }) 
+      else if (data.rows[0].total == 0) {
+        return res.send(`Data yang Anda Cari tidak ditemukan`);
       }
-      const totalData = parseInt(data.rows[0].total);
+      const totalData = parseInt(data.rows[0].total); 
       const pages = Math.ceil(totalData / limit);
-      // console.log(pages);
+     
       let sql = `SELECT * FROM bread ${search} ORDER BY id LIMIT $1 OFFSET $2`;
       db.query(sql, [limit, offset], (err, data) => {
         if (err) {

@@ -18,7 +18,6 @@ $(document).ready(() => {
     })
 
     $('.btn-add').on('click', '.btn-save', function (e) {
-        // e.preventDefault();
         let string = $('#addString').val();
         let integer = $('#addInteger').val();
         let float = $('#addFloat').val();
@@ -41,15 +40,19 @@ $(document).ready(() => {
         loadData();
     })
 
-    $('#search').submit(function (e) {
+    $('#searchForm').submit(function (e) {
         e.preventDefault();
+        $('#page').val(1);
+        loadData();
+    });
+
+    $('#reset').on('click',function(e){
         loadData();
     })
 })
 
 // ==================== Load Data ======================================
 const loadData = () => {
-
     let page = $('#page').val();
     let id = $('#id').val();
     let string = $('#string').val();
@@ -69,9 +72,11 @@ const loadData = () => {
         data: { page, id, string, float, startDate, endDate, boolean, cId, cString, cFloat, cDate, cBoolean },
         dataType: "json"
     }).done(result => {
-        let data = result.data;
+        const data = result.data;
         let page = result.page;
+        let pages = result.pages; 
         let html = "";
+        console.log(`page:${page}, pages:${pages}`)
         data.forEach(item => {
             html += `<tr>
                     <td>${item.id}</td>
@@ -94,7 +99,7 @@ const loadData = () => {
         } else {
             pagination += `<li class="page-item previous" pageid=${page - 1}><a class="page-link" href="#">Previous</a></li>\n`;
         }
-        for (i = 1; i <= result.pages; i++) {
+        for (i = 1; i <= pages; i++) {
             if (i == page) {
                 pagination += `<li class="page-item active" pageid="${i}"><a class="page-link" href="#">${i}</a></li>\n`;
             } else {
@@ -102,7 +107,7 @@ const loadData = () => {
             }
         }
 
-        if (result.page == parseInt(result.pages)) {
+        if (page == parseInt(pages)) {
             pagination += `<li class="page-item next pageid=${page + 1} disabled"><a class="page-link" href="#">Next</a></li>\n`;
         } else {
             pagination += `<li class="page-item next" pageid=${page + 1}><a class="page-link" href="#">Next</a></li>\n`;
